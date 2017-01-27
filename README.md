@@ -2,9 +2,9 @@
 
 ## Install python dependencies
 
-`sudo pip install -r requirements.txt`
-`sudo apt-get install python3-picamera`
-`sudo pip3 install redis` 
+    sudo pip install -r requirements.txt
+    sudo apt-get install python3-picamera
+    sudo pip3 install redis
 
 ## Configure credentials
 
