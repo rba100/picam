@@ -14,18 +14,17 @@ class photoStream:
 
     # Initialisation
     self._stopSignal = threading.Event()
+    self._thread = None
 
-  def open(self):
+  def start(self):
     self.camera = picamera.PiCamera()
-
-  def _report(self, filePath):
-    if not self._reporter is None:
-      self._reporter(filePath)
+    self._thread = threading.Thread(_captureloop)
+    self._thread.start()
 
   def stop(self):
     self._stopSignal.set()
 
-  def _captureloop():
+  def _captureloop(self):
     while not _stopSignal.is_set():
       fileName = datetime.utcnow().strftime("%Y-%m-%d_%H-%M-%s") + ".jpg"
       filePath = os.path.join(_targetFolder, fileName)
@@ -33,6 +32,10 @@ class photoStream:
       self._report(filePath)
       _stopSignal.wait(_captureInterval)
     camera.close()
+
+  def _report(self, filePath):
+    if not self._reporter is None:
+      self._reporter(filePath)
 
 
 
