@@ -26,7 +26,7 @@ class photoStream:
     self._stopSignal.set()
 
   def _captureloop():
-    while not _stopSignal.is_set()
+    while not _stopSignal.is_set():
       fileName = datetime.utcnow().strftime("%Y-%m-%d_%H-%M-%s") + ".jpg"
       filePath = os.path.join(_targetFolder, fileName)
       camera.capture(filePath)
