@@ -1,6 +1,6 @@
 import redis
 
-class redis_publisher:
+class RedisbusPublisher:
   def __init__(self, host, port):
     self.host = host
     self.port = port
@@ -14,7 +14,7 @@ class redis_publisher:
   def publish(self, channelName, payload):
     r.publish(channelName, payload)
     
-class redis_subscriber:
+class RedisbusSubscriber:
   def __init__(self, host, port):
     self.host = host
     self.port = port
