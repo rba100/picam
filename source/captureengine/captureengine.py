@@ -38,7 +38,3 @@ class CaptureEngine:
   def _report(self, filePath):
     if not self._reporter is None:
       self._reporter(filePath)
-
-
-
- 
