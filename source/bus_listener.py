@@ -6,7 +6,7 @@ def printer(message):
 
 subscriber = messagebus.RedisbusSubscriber("localhost", 6379)
 print("Opening connection...")
-subscriber.open('image-captured', printer)
+subscriber.open('picam', printer)
 try:
   while True:
     time.sleep(1)

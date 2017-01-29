@@ -7,17 +7,19 @@ class PublishingCamera:
     self._redisPort = kwargs.get("redisPort", 6379)
     self._targetFolder = kwargs.get("targetFolder","/home/pi/dump")
     self._captureInterval = kwargs.get("captureInterval", 2)
+    self._busMessageSerialiser = messagebus.BusMessageSerialiser()
     pass
   
   def _reporter(self, fileName):
-    message = BusMessage('image-captured',{ "fileName": fileName })
-    self._publisher.publish(message)
+    message = messagebus.BusMessage('image-captured',{ "fileName": fileName })
+    serialised = self._busMessageSerialiser.serialise(message)
+    self._publisher.publish('picam', serialised)
     pass
   
   def start(self):
-    self._publisher = RedisbusPublisher(self._redisHost, self._redisPort)
+    self._publisher = messagebus.RedisbusPublisher(self._redisHost, self._redisPort)
     self._publisher.open()
-    self._captureEngine = CaptureEngine(targetFolder = self._targetFolder,
+    self._captureEngine = captureengine.CaptureEngine(targetFolder = self._targetFolder,
                                         captureInterval = self._captureInterval,
                                         reporter = self._reporter)
     self._captureEngine.start()

@@ -28,7 +28,7 @@ class CaptureEngine:
 
   def _captureloop(self):
     while not self._stopSignal.is_set():
-      fileName = datetime.utcnow().strftime("%Y-%m-%d_%H-%M-%s") + ".jpeg"
+      fileName = datetime.utcnow().strftime("%Y-%m-%d_%H-%M-%S") + ".jpeg"
       filePath = os.path.join(self._targetFolder, fileName)
       self._camera.capture(filePath)
       self._report(filePath)
