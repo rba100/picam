@@ -1,9 +1,9 @@
 # Import core classes
 
-from serialisation import BusMessage
-from serialisation import BusMessageSerialiser
+from messagebus.serialisation import BusMessage
+from messagebus.serialisation import BusMessageSerialiser
 
 # Import adapters
 
-from adapters.redis.redisadapter import RedisbusPublisher
-from adapters.redis.redisadapter import RedisbusSubscriber
+from messagebus.adapters.redisadapter import RedisbusPublisher
+from messagebus.adapters.redisadapter import RedisbusSubscriber

@@ -1,1 +1,1 @@
-from camera import CaptureEngine
+from captureengine.captureengine import CaptureEngine

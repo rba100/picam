@@ -2,27 +2,29 @@ import redis
 
 class RedisbusPublisher:
   def __init__(self, host, port):
-    self.host = host
-    self.port = port
+    self._host = host
+    self._port = port
 
   def open(self):
-    self.r = redis.StrictRedis(host=self.host, port=self.port)
+    self._r = redis.StrictRedis(host=self._host, port=self._port)
   
   def close(self):
     pass #do nothing, redis object does not require disposal
   
   def publish(self, channelName, payload):
-    r.publish(channelName, payload)
+    self._r.publish(channelName, payload)
     
 class RedisbusSubscriber:
   def __init__(self, host, port):
-    self.host = host
-    self.port = port
+    self._host = host
+    self._port = port
 
   def open(self, channelName, handler=None):
-    self.r = redis.StrictRedis(host=self.host, port=self.port)
-    self.p = r.pubsub(ignore_subscribe_messages=True)
-    self.p.subscribe(**{channelName: handler})
+    self._r = redis.StrictRedis(host=self._host, port=self._port)
+    self._p = self._r.pubsub(ignore_subscribe_messages=True)
+    self._p.subscribe(**{channelName: handler})
+    self._thread = self._p.run_in_thread(sleep_time=0.001)
     
   def close(self):
-    self.p.close()
+    self._thread.stop()
+    self._p.close()
