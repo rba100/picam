@@ -4,9 +4,9 @@ import os
 
 class SubscribingUploader:
   def __init__(self):
-    self._uploader = storage.S3Storage(bucketName = "rba-picam", s3Folder="images")
+    self._uploader = storage.S3Storage(bucketName = "rba-picam")
     self._serialiser = messagebus.BusMessageSerialiser()
-    self._s3Folder = s3Folder
+    self._s3Folder = "images"
 
   def start(self):
     self._subscriber = messagebus.RedisbusSubscriber("localhost", 6379)
