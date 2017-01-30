@@ -29,12 +29,13 @@ class BusMessageSerialiser():
       }
     return json.dumps(binding)
 
-  def deserialise(self, jsonString):
-    if not type(jsonString) is str:
-      raise Exception('deserialise() must be called with a string argument')
-    deserialised = json.loads(jsonString)
+  def deserialise(self, serialised):
+    if type(serialised) is str:
+      dictionary = json.loads(jsonString)
+    if type(serialised) is dict:
+      dictionary = serialised
     if not type(deserialised) is dict:
-      raise Exception("'" + jsonString + "' could not be deserialised as a dictionary")
+      raise Exception("Type '" + type(serialised) + "' could not be deserialised.")
     message = BusMessage(deserialised["type"], deserialised["payload"])
     message.timestamp = deserialised["timestamp"]
     return message
