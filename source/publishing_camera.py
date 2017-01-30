@@ -12,7 +12,7 @@ class PublishingCamera:
     pass
   
   def _reporter(self, fileName):
-    message = messagebus.BusMessage('image-captured',{ "fileName": fileName })
+    message = messagebus.BusMessage('image-captured', { "fileName": fileName })
     serialised = self._busMessageSerialiser.serialise(message)
     self._publisher.publish('picam', serialised)
     pass
