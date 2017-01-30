@@ -14,6 +14,7 @@ class SubscribingUploader:
     self._subscriber.close()
 
   def _handler(self, rawMessage):
+    print(rawMessage)
     message = self._serialiser.deserialise(rawMessage)
     if message.messageType == "image-captured":
       filePath = message.payload["fileName"]

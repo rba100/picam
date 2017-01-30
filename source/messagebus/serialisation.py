@@ -30,8 +30,10 @@ class BusMessageSerialiser():
     return json.dumps(binding)
 
   def deserialise(self, serialised):
+    if type(serialised) is bytes:
+      serialised = serialised.decode("utf-8") 
     if type(serialised) is str:
-      dictionary = json.loads(jsonString)
+      dictionary = json.loads(serialised)
     if type(serialised) is dict:
       dictionary = serialised
     if not type(dictionary) is dict:

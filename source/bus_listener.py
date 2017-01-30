@@ -4,7 +4,8 @@ import time
 serialiser = messagebus.BusMessageSerialiser()
 
 def printer(message):
-  deserialised = serialiser.deserialise(message)
+  #deserialised = serialiser.deserialise(str(message["payload"]))
+  #print(type(message))
   print(message)
 
 subscriber = messagebus.RedisbusSubscriber("localhost", 6379)

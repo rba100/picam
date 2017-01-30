@@ -26,7 +26,7 @@ class RedisbusSubscriber:
     self._innerHandler = handler
     self._r = redis.StrictRedis(host=self._host, port=self._port)
     self._p = self._r.pubsub(ignore_subscribe_messages=True)
-    self._p.subscribe(**{channelName: self._innerHandler})
+    self._p.subscribe(**{channelName: self._handler})
     self._thread = self._p.run_in_thread(sleep_time=0.001)
     
   def close(self):
