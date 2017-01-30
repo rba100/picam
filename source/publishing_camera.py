@@ -7,6 +7,7 @@ class PublishingCamera:
     self._redisPort = kwargs.get("redisPort", 6379)
     self._targetFolder = kwargs.get("targetFolder","/home/pi/dump")
     self._captureInterval = kwargs.get("captureInterval", 2)
+    self._cameraSettings = kwargs.get("cameraSettings", {})
     self._busMessageSerialiser = messagebus.BusMessageSerialiser()
     pass
   
@@ -21,6 +22,7 @@ class PublishingCamera:
     self._publisher.open()
     self._captureEngine = captureengine.CaptureEngine(targetFolder = self._targetFolder,
                                         captureInterval = self._captureInterval,
+                                        cameraSettings = self._cameraSettings,
                                         reporter = self._reporter)
     self._captureEngine.start()
     

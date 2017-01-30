@@ -18,7 +18,13 @@ class CaptureEngine:
 
   def start(self):
     if self._thread is None:
-      self._camera = picamera.PiCamera()
+      cam = picamera.PiCamera()
+      settings = self._cameraSettings
+      self._camera = cam
+      
+      # Settings
+      cam.resolution = settings.get("resolution", (640, 480))
+      
       self._thread = threading.Thread(target=self._captureloop)
       self._thread.start()
 
