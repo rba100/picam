@@ -19,10 +19,14 @@ class RedisbusSubscriber:
     self._host = host
     self._port = port
 
+  def _handler(self, message):
+    self._innerHandler(message["data"])
+
   def open(self, channelName, handler=None):
+    self._innerHandler = handler
     self._r = redis.StrictRedis(host=self._host, port=self._port)
     self._p = self._r.pubsub(ignore_subscribe_messages=True)
-    self._p.subscribe(**{channelName: handler})
+    self._p.subscribe(**{channelName: self._innerHandler})
     self._thread = self._p.run_in_thread(sleep_time=0.001)
     
   def close(self):
