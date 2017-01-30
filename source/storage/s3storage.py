@@ -8,7 +8,7 @@ class S3Storage:
     pass
 
   def move(self, filePath, targetPath):
-    self.copy(targetPath, filePath)
+    self.copy(filePath, targetPath)
     os.remove(filePath)
 
   def copy(self, filePath, targetPath):
