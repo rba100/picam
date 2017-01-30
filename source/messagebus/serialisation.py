@@ -34,8 +34,8 @@ class BusMessageSerialiser():
       dictionary = json.loads(jsonString)
     if type(serialised) is dict:
       dictionary = serialised
-    if not type(deserialised) is dict:
+    if not type(dictionary) is dict:
       raise Exception("Type '" + type(serialised) + "' could not be deserialised.")
-    message = BusMessage(deserialised["type"], deserialised["payload"])
-    message.timestamp = deserialised["timestamp"]
+    message = BusMessage(dictionary["type"], dictionary["payload"])
+    message.timestamp = dictionary["timestamp"]
     return message
