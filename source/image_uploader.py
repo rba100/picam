@@ -12,12 +12,12 @@ class SubscribingUploader:
     self._subscriber = messagebus.RedisbusSubscriber("localhost", 6379)
     self._subscriber.open('picam', self._handler)
 
-  def close(self):
+  def stop(self):
     self._subscriber.close()
 
   def _handler(self, rawMessage):
     message = self._serialiser.deserialise(rawMessage)
-    if message.messageType == "image-captured":      
+    if message.messageType == "image-saved":      
       filePath = message.payload["fileName"]
       print("Uploading: " + str(filePath))
       localFolder, fileName = os.path.split(filePath)

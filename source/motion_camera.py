@@ -1,5 +1,7 @@
 import captureengine
 import messagebus
+from datetime import datetime
+import os
 
 class MotionTriggeredPublishingCamera:
   def __init__(self, **kwargs):
@@ -11,6 +13,7 @@ class MotionTriggeredPublishingCamera:
     self._cameraSettings = kwargs.get("cameraSettings", {})
     self._motionThreshold = kwargs.get("motionRegionThreshold", 10)
     self._motionRegionThreshold = kwargs.get("motionRegionThreshold", 20)
+    self._printMessages = False
     
     # Initialisation
     self._busMessageSerialiser = messagebus.BusMessageSerialiser()    
@@ -19,16 +22,18 @@ class MotionTriggeredPublishingCamera:
   def _reporter(self, imageBytes):
     self._imageDiffer.push(imageBytes)
     if self._imageDiffer.isDifferent():
-      #timeStamp = datetime.utcnow().strftime("%Y-%m-%d_%H-%M-%S")
-      #fileName = timeStamp + ".jpeg"
-      print("MOTION")
-      #self._imageDiffer.save(fileName)
+      if self._printMessages:
+        print("MOTION")
+      timeStamp = datetime.utcnow().strftime("%Y-%m-%d_%H-%M-%S")
+      fileName = timeStamp + ".jpeg"
+      filePath = os.path.join(self._targetFolder, fileName)
+      self._imageDiffer.save(filePath)
+      message = messagebus.BusMessage('image-saved', { "fileName": filePath })
+      serialised = self._busMessageSerialiser.serialise(message)
+      self._publisher.publish('picam', serialised)      
     else:
-      print("nothing")
-    
-    #message = messagebus.BusMessage('image-captured', { "fileName": fileName })
-    #serialised = self._busMessageSerialiser.serialise(message)
-    #self._publisher.publish('picam', serialised)
+      if self._printMessages:
+        print("nothing")
     pass
   
   def start(self):
