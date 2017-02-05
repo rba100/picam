@@ -9,7 +9,7 @@ Surveillance Software for the Raspberry Pi.
 - Service-orientated architecture using Redis as a poor-man's message bus
 
 ## Usage
-Folow the setup guide below first then navigate to the picam/source folder and `chmod +x start` to make the start script runnable.
+Folow the setup guide below first then navigate to the picam/source folder and `chmod +x start` to make the start script runnable. Edit `settings.json` and tweak as necessary.
 From different console windows, or in background tasks, run the following commands
 
 - `./start uploader`

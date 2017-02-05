@@ -7,7 +7,7 @@ import os
 class CaptureEngine:
   def __init__(self, **kwargs):
     # Settings
-    self._targetFolder = kwargs.get('targetFolder','')
+    self._targetFolder = kwargs.get('targetFolder','/home/pi/dump')
     self._captureInterval = kwargs.get('captureInterval', 2)
     self._reporter = kwargs.get('reporter', None)
     self._cameraSettings = kwargs.get("cameraSettings", {})
