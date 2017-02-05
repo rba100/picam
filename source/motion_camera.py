@@ -10,8 +10,8 @@ class MotionTriggeredPublishingCamera:
     self._redisPort = kwargs.get("redisPort", 6379)
     self._targetFolder = kwargs.get("targetFolder","/home/pi/dump")
     self._captureInterval = kwargs.get("captureInterval", 2)
-    self._cameraSettings = kwargs.get("cameraSettings", {})
-    self._motionThreshold = kwargs.get("motionRegionThreshold", 10)
+    self._cameraSettings = kwargs.get("cameraSettings", {"resolution": (640,480)})
+    self._motionThreshold = kwargs.get("motionThreshold", 10)
     self._motionRegionThreshold = kwargs.get("motionRegionThreshold", 20)
     self._printMessages = False
     

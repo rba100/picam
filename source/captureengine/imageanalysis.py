@@ -1,13 +1,13 @@
 from PIL import Image
 
 class ImageDifferentiator:
-  def __init__(self):
+  def __init__(self, **kwargs):
     # Settings
     self._mode = "RGB"
-    self._resolution = (640, 480)    
+    self._cameraSettings = kwargs.get("cameraSettings", {"resolution": (640,480)})
     self._regionSize = 10
-    self._threshhold = 10
-    self._regionThreshhold = 20
+    self._threshhold = kwargs.get("motionThreshold", 10)
+    self._regionThreshhold = kwargs.get("motionRegionThreshold", 20)
 
     # Initialisation    
     self._last = None
@@ -17,7 +17,7 @@ class ImageDifferentiator:
     if not self._last is None:
       self._last.close()      
     self._last = self._current
-    self._current = Image.frombuffer(self._mode, self._resolution, imageBytes);    
+    self._current = Image.frombuffer(self._mode, self._cameraSettings["resolution"], imageBytes);    
 
   def isDifferent(self):
     if self._last is None or self._current is None:

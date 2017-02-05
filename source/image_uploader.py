@@ -3,13 +3,16 @@ import messagebus
 import os
 
 class SubscribingUploader:
-  def __init__(self):
-    self._uploader = storage.S3Storage(bucketName = "rba-picam")
+  def __init__(self, **kwargs):
+    self._bucketName = kwargs.get("s3bucketName", "rba-picam")
+    self._redisHost = kwargs.get("redisHost", "localhost")
+    self._redisPort = kwargs.get("redisPort", 6379)
+    self._uploader = storage.S3Storage(bucketName = self._bucketName)
     self._serialiser = messagebus.BusMessageSerialiser()
     self._s3Folder = "images"
 
   def start(self):
-    self._subscriber = messagebus.RedisbusSubscriber("localhost", 6379)
+    self._subscriber = messagebus.RedisbusSubscriber(self._redisHost, self._redisPort)
     self._subscriber.open('picam', self._handler)
 
   def stop(self):

@@ -2,6 +2,7 @@
 
 import sys
 import time
+import json
 import messagebus
 from motion_camera import MotionTriggeredPublishingCamera as Camera
 from image_uploader import SubscribingUploader as Uploader
@@ -22,6 +23,10 @@ if len(sys.argv) < 2:
 
 serviceName = sys.argv[1];
 
+# Load settings
+with open('settings.json') as fs:
+  settings = json.load(fs)
+
 def waitLoop():
   try:
     while True:
@@ -41,7 +46,7 @@ def printer(message):
   print(message)
 
 def busmonitor():
-  subscriber = messagebus.RedisbusSubscriber("localhost", 6379)
+  subscriber = messagebus.RedisbusSubscriber(settings["redisHost"], settings["redisPort"])
   subscriber.open('picam', printer)
   waitLoop()
   try:
@@ -51,14 +56,14 @@ def busmonitor():
   return
 
 def camera():
-  camera = Camera()
+  camera = Camera(**settings)
   camera.start()
   waitLoop()
   camera.stop()
   return
 
 def uploader():
-  uploader = Uploader()
+  uploader = Uploader(**settings)
   uploader.start()
   waitLoop()
   uploader.stop()

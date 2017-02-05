@@ -1,0 +1,11 @@
+{
+  "s3bucketName": "rba-picam",
+  "redisHost": "localhost",
+  "redisPort": 6379,
+  
+  "targetFolder": "/home/pi/dump",
+  "cameraSettings" : { "resolution": [640,480] },
+  "captureInterval": 2,
+  "motionThreshold": 10,
+  "motionRegionThreshold": 25
+}
