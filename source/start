@@ -1,0 +1,71 @@
+#!/usr/bin/python3
+
+import sys
+import time
+import messagebus
+from motion_camera import MotionTriggeredPublishingCamera as Camera
+from image_uploader import SubscribingUploader as Uploader
+BUSMONITOR = "busmonitor"
+CAMERA = "camera"
+UPLOADER = "uploader"
+
+def printHelp():
+  print("Usage: start [service name]")
+  print("  services:")
+  print("             " + BUSMONITOR)
+  print("             " + CAMERA)
+  print("             " + UPLOADER)
+
+if len(sys.argv) < 2:
+  printHelp()
+  exit()
+
+serviceName = sys.argv[1];
+
+def waitLoop():
+  try:
+    while True:
+      time.sleep(1)
+  except KeyboardInterrupt:
+    print("Closing...")
+  
+def start(name):
+  print("Starting " + name)
+  return {
+    BUSMONITOR: busmonitor,
+    CAMERA: camera,
+    UPLOADER: uploader
+  }[name]()
+
+def printer(message):
+  print(message)
+
+def busmonitor():
+  subscriber = messagebus.RedisbusSubscriber("localhost", 6379)
+  subscriber.open('picam', printer)
+  waitLoop()
+  try:
+    subscriber.close()
+  except AttributeError:
+    pass
+  return
+
+def camera():
+  camera = Camera()
+  camera.start()
+  waitLoop()
+  camera.stop()
+  return
+
+def uploader():
+  uploader = Uploader()
+  uploader.start()
+  waitLoop()
+  uploader.stop()
+  return
+
+try:
+  start(serviceName)
+except KeyError:
+  print("Unknown service '" + serviceName + "'")
+  printHelp()

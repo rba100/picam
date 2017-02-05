@@ -21,7 +21,5 @@ class SubscribingUploader:
       filePath = message.payload["fileName"]
       print("Uploading: " + str(filePath))
       localFolder, fileName = os.path.split(filePath)
-      targetPath = os.path.join(self._s3Folder, fileName)
+      targetPath = os.path.join(self._s3Folder, fileName).replace("_","/")
       self._uploader.move(filePath, targetPath)
-    else:
-      print("Ignoring: " + message.messageType)
