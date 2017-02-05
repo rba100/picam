@@ -4,6 +4,7 @@
 
     sudo pip install -r requirements.txt
     sudo apt-get install python3-picamera
+    sudo aptitude install python-imaging-tk
     sudo pip3 install redis
 
 ## Configure credentials
