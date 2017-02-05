@@ -34,11 +34,12 @@ class InMemoryCaptureEngine:
     self._thread = None
 
   def _captureloop(self):
+    mode = self._cameraSettings.get("mode", "rgb")
     while not self._stopSignal.is_set():
       #timeStamp = datetime.utcnow().strftime("%Y-%m-%d_%H-%M-%S")
       
       with BytesIO() as stream:
-        self._camera.capture(stream, 'jpeg')
+        self._camera.capture(stream, mode)
         stream.seek(0)
         self._report(stream)
         
