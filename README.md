@@ -12,12 +12,13 @@ Surveillance Software for the Raspberry Pi.
 Folow the setup guide below first then navigate to the picam/source folder and `chmod +x start` to make the start script runnable.
 From different console windows, or in background tasks, run the following commands
 
-- `./start uploader` (not necessary, only for viewing bus messages during debug)
-- `./start camera` (not necessary, only for viewing bus messages during debug)
-- `./start busmonitor` (not necessary, only for viewing bus messages during debug)
+- `./start uploader`
+- `./start camera`
+- `./start busmonitor` (not necessary, only used during development)
 
 The uploader listens for 'image-saved' messages and punts them to S3.
 The camera starts the raspberry pi camera and starts taking photos in-memory. These are analysed and if reasonably different from the last saved to disk and an 'image-saved' message published on the bus.
+The busmonitor displays all bus messages in the console to help with development.
 
 ## Setup
 
