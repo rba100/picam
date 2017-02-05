@@ -1,6 +1,5 @@
 import picamera
 from io import BytesIO
-from PIL import Image
 import time
 from datetime import datetime
 import threading
